@@ -2,7 +2,7 @@
 FROM node:16-alpine
 
 # Directorio de trabajo
-WORKDIR /app
+WORKDIR /client
 
 # Copiamos el archivo 'package.json' y 'package-lock.json' (si está disponible)
 COPY package.json ./
@@ -14,4 +14,4 @@ RUN npm install
 # Hacemos el 'build' de la aplicación
 RUN npm run build
 
-COPY . /app/
+COPY . /client/
