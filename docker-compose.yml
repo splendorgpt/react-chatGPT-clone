@@ -1,0 +1,41 @@
+version: '3'
+services:
+  react-app:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm start
+
+  node-app:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm start
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAINS: 'chat.splendos.org -> http://react-app:3000'
+      STAGE: 'staging' # Don't use production until staging works
+    volumes:
+      - https-portal-data:/var/lib/https-portal
+
+volumes:
+    https-portal-data: # Recommended, to avoid re-signing when upgrading HTTPS-PORTAL
