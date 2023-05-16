@@ -14,4 +14,4 @@ RUN npm install
 # Hacemos el 'build' de la aplicación
 RUN npm run build
 
-COPY . /client/
+COPY . .
